@@ -1,0 +1,42 @@
+{
+  "name": "cocos-ai-bridge",
+  "version": "0.1.0",
+  "description": "Cocos Creator editor bridge for local AI coding agents.",
+  "package_version": 2,
+  "main": "dist/main.js",
+  "types": "dist/main.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "dev": "tsc -p tsconfig.json --watch",
+    "client:health": "node tools/cocos-ai-bridge-client.js health",
+    "client:sync": "node tools/cocos-ai-bridge-client.js sync",
+    "client:refresh-assets": "node tools/cocos-ai-bridge-client.js refresh-assets"
+  },
+  "keywords": [
+    "cocos",
+    "cocos-creator",
+    "editor-extension",
+    "ai",
+    "codex"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16"
+  },
+  "editor": ">=3.8.0",
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "typescript": "^5.4.5"
+  },
+  "contributions": {
+    "messages": {
+      "open": {
+        "methods": [
+          "open"
+        ]
+      }
+    }
+  }
+}
