@@ -24,6 +24,30 @@ npm run build
 
 Restart Cocos Creator or reload extensions from Extension Manager.
 
+## Install with an AI Agent
+
+This project is intended to work like a project-level skill for a Cocos Creator game repository. Install it inside the game project, then copy its agent rules into the game project's `AGENTS.md`.
+
+Give another local AI coding agent this prompt:
+
+```text
+Install Cocos AI Bridge from https://github.com/nathan77886/cocos-ai-bridge into this Cocos Creator project.
+
+Requirements:
+1. Clone or copy the repository to extensions/cocos-ai-bridge.
+2. Run npm install and npm run build inside extensions/cocos-ai-bridge.
+3. Copy extensions/cocos-ai-bridge/examples/AGENTS.cocos-project.md into the project root AGENTS.md, or merge it into the existing AGENTS.md without deleting existing project rules.
+4. Do not expose the bridge outside localhost.
+5. Do not delete .meta files or rewrite scene/prefab files during installation.
+6. Report whether npm install, npm run build, and bridge health check succeeded.
+```
+
+After Cocos Creator loads the extension, verify:
+
+```bash
+node extensions/cocos-ai-bridge/tools/cocos-ai-bridge-client.js health
+```
+
 ## Scripts
 
 ```bash
