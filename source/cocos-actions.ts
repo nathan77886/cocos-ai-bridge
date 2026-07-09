@@ -156,13 +156,13 @@ export async function syncAfterAIChange(options: SyncAfterAIChangeOptions = {}):
     steps.push(ok('delay', 'done', { delayMs }));
   }
 
-  if (options.saveScene ?? true) {
+  if (options.saveScene) {
     steps.push(await saveScene());
   }
 
   if (options.restartPreview) {
     steps.push(await restartPreview());
-  } else if (options.reloadPreview ?? true) {
+  } else if (options.reloadPreview) {
     steps.push(await reloadPreview());
   }
 

@@ -9,8 +9,10 @@
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "dev": "tsc -p tsconfig.json --watch",
+    "install:into-project": "node scripts/install-into-cocos-project.js",
     "client:health": "node tools/cocos-ai-bridge-client.js health",
     "client:sync": "node tools/cocos-ai-bridge-client.js sync",
+    "client:sync-safe": "node tools/cocos-ai-bridge-client.js sync-safe",
     "client:refresh-assets": "node tools/cocos-ai-bridge-client.js refresh-assets"
   },
   "keywords": [

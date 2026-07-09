@@ -16,7 +16,10 @@ function usage() {
   node tools/cocos-ai-bridge-client.js save-scene
   node tools/cocos-ai-bridge-client.js reload-preview
   node tools/cocos-ai-bridge-client.js restart-preview
-  node tools/cocos-ai-bridge-client.js sync [--path assets/foo.ts] [--reimport] [--restart-preview] [--delay-ms 1000]`);
+  node tools/cocos-ai-bridge-client.js sync [--path assets/foo.ts] [--reimport] [--save-scene] [--reload-preview] [--restart-preview] [--delay-ms 1000]
+  node tools/cocos-ai-bridge-client.js sync-safe
+
+Sync defaults to AssetDB refresh/reimport plus delay only. Use preview and scene flags explicitly.`);
 }
 
 function request(method, path, body) {
@@ -63,8 +66,12 @@ function parseSyncArgs(args) {
       index += 1;
     } else if (arg === '--reimport') {
       body.reimport = true;
+    } else if (arg === '--save-scene') {
+      body.saveScene = true;
     } else if (arg === '--no-save-scene') {
       body.saveScene = false;
+    } else if (arg === '--reload-preview') {
+      body.reloadPreview = true;
     } else if (arg === '--no-reload-preview') {
       body.reloadPreview = false;
     } else if (arg === '--restart-preview') {
@@ -106,7 +113,7 @@ async function main() {
     response = await request('POST', '/reload-preview', {});
   } else if (command === 'restart-preview') {
     response = await request('POST', '/restart-preview', {});
-  } else if (command === 'sync') {
+  } else if (command === 'sync' || command === 'sync-safe') {
     response = await request('POST', '/sync-after-ai-change', parseSyncArgs(args));
   } else {
     usage();

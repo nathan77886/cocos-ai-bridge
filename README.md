@@ -48,14 +48,43 @@ After Cocos Creator loads the extension, verify:
 node extensions/cocos-ai-bridge/tools/cocos-ai-bridge-client.js health
 ```
 
+## One-command install into an existing Cocos project
+
+### A. Agent install
+
+Give your coding agent this repository URL and ask it to follow `INSTALL_BY_AGENT.md`.
+
+```text
+Please install https://github.com/nathan77886/cocos-ai-bridge into the current Cocos Creator project. Follow INSTALL_BY_AGENT.md.
+```
+
+### B. Manual install
+
+```bash
+git clone https://github.com/nathan77886/cocos-ai-bridge /tmp/cocos-ai-bridge
+node /tmp/cocos-ai-bridge/scripts/install-into-cocos-project.js /path/to/your-cocos-project
+```
+
+Install complete does not mean the bridge is running. Open or restart Cocos Creator, then run:
+
+```bash
+node extensions/cocos-ai-bridge/tools/cocos-ai-bridge-client.js health
+```
+
+Health check success means the bridge is running. If health check fails while Cocos Creator is closed, open or restart Cocos Creator first.
+
+If preview reload returns `unsupported`, AssetDB refresh may still have succeeded. Default `sync` only guarantees AssetDB refresh/reimport plus delay; it does not promise runtime HMR.
+
 ## Scripts
 
 ```bash
 npm run build
 npm run typecheck
 npm run dev
+npm run install:into-project -- /path/to/your-cocos-project
 npm run client:health
 npm run client:sync
+npm run client:sync-safe
 npm run client:refresh-assets
 ```
 
@@ -159,8 +188,8 @@ Default flow:
 
 1. Refresh all assets, or refresh/reimport provided paths.
 2. Wait `delayMs`, default `1000`.
-3. Save scene.
-4. Reload preview, or restart preview if requested.
+
+Scene save and preview actions are opt-in.
 
 Body:
 
@@ -168,8 +197,8 @@ Body:
 {
   "paths": ["db://assets/scripts/foo.ts"],
   "reimport": false,
-  "saveScene": true,
-  "reloadPreview": true,
+  "saveScene": false,
+  "reloadPreview": false,
   "restartPreview": false,
   "delayMs": 1000
 }
@@ -186,14 +215,18 @@ node extensions/cocos-ai-bridge/tools/cocos-ai-bridge-client.js health
 node extensions/cocos-ai-bridge/tools/cocos-ai-bridge-client.js refresh-assets
 node extensions/cocos-ai-bridge/tools/cocos-ai-bridge-client.js refresh-path assets/scripts/foo.ts
 node extensions/cocos-ai-bridge/tools/cocos-ai-bridge-client.js sync
+node extensions/cocos-ai-bridge/tools/cocos-ai-bridge-client.js sync-safe
 node extensions/cocos-ai-bridge/tools/cocos-ai-bridge-client.js sync --path assets/scripts/foo.ts --path assets/prefabs/bar.prefab
+node extensions/cocos-ai-bridge/tools/cocos-ai-bridge-client.js sync --save-scene
+node extensions/cocos-ai-bridge/tools/cocos-ai-bridge-client.js sync --reload-preview
+node extensions/cocos-ai-bridge/tools/cocos-ai-bridge-client.js sync --restart-preview
 ```
 
 ## Recommended AI Workflow
 
 1. Inspect Cocos files first.
 2. Make minimal edits.
-3. For script/resource/prefab/scene changes, call `sync`.
+3. For script/resource/prefab/scene changes, call `sync` or `sync-safe`.
 4. If sync fails, report the bridge error and do not claim editor refresh succeeded.
 5. For prefab and scene files, prefer path-specific sync with `--reimport`.
 6. For simulator/native preview, use `--restart-preview` when reload is insufficient.
